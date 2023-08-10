@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const Token = require("../models/token");
+const TokenController = require("../controllers/token");
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -11,16 +12,14 @@ const generateToken = async (user) => {
 
 module.exports.logout = async (req, res, next) => {
   try {
-    const header_authorization = req.get('Authorization');
-    const token = header_authorization.split(' ')[1];
-    const { rows } = await Token.findUser({ content: token });
-    if(rows){
-      await Token.deactivate({ user_id: rows[0].user_id })
+    const authUser = await TokenController.userAuth(req, res, next);
+    if(authUser){
+      await Token.deactivate({ user_id: authUser.user_id })
       return res.status(200).json({ message: 'Out!' });
     }
     res.status(400).json({ message: 'Invalid Token' });
   } catch (error) {
-    res.status(400).json({ message: error });
+    res.status(400).json({ message: error.message });
   }
 };
 
