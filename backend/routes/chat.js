@@ -2,8 +2,8 @@ const express = require("express");
 
 const router = express.Router();
 
-const { findByEmail } = require("../controllers/user");
+const { create } = require("../controllers/chat");
 
-router.get("/email", findByEmail);
+router.post("/chat", create);
 
 module.exports = router;

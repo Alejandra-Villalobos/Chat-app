@@ -26,7 +26,7 @@ module.exports.findAll = () => {
 module.exports.findOneByEmail = ({ email }) => {
   const bindings = [email];
   const SQL_SELECT_USER = `SELECT 
-                                USER_ID, EMAIL, NAME,
+                                USER_ID, EMAIL, NAME
                               FROM USERS
                               WHERE EMAIL = $1`;
   return pool.query(SQL_SELECT_USER, bindings);
@@ -35,7 +35,7 @@ module.exports.findOneByEmail = ({ email }) => {
 module.exports.findOneById = ({ id }) => {
   const bindings = [id];
   const SQL_SELECT_USER = `SELECT 
-                                USER_ID, EMAIL, NAME,
+                                USER_ID, EMAIL, NAME
                               FROM USERS
                               WHERE USER_ID = $1`;
   return pool.query(SQL_SELECT_USER, bindings);
