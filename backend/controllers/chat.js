@@ -37,7 +37,7 @@ module.exports.getAllWithName = async (req, res, next) => {
   try {
     const authUser = await Token.userAuth(req, res, next);
     const { rows } = await Chat.getAllWithName({ user_id:authUser.user_id })
-    return res.status(200).json({ rows });
+    return res.status(200).json({ data:rows });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
