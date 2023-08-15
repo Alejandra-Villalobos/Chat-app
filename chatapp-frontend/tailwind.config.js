@@ -1,11 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ["./src/**/*.{html,js}"],
-    theme: {
-      fontFamily: {
-        'patua': ['Patua One'], 
-      },
-      extend: {},
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
+  theme: {
+    fontFamily: {
+      'patua': ['Patua One'], 
     },
-    plugins: [],
-  }
+    extend: {},
+  },
+  plugins: [],
+}

@@ -1,5 +1,6 @@
 import { FcGoogle } from "react-icons/fc";
-import chatImage from "../assets/chat_image.png"
+import { Link, Outlet } from "react-router-dom";
+import chatImage from "../assets/chat_image.png";
 
 function Login() {
   return (
@@ -24,16 +25,19 @@ function Login() {
             className="mt-4 flex gap-5 text-xl text-gray-700 bg-white rounded-md px-6 py-3 w-full"
             placeholder="Password"
           ></input>
-          <input
-            className="mt-4 flex gap-5 text-2xl text-white bg-fuchsia-300 rounded-md px-6 py-3 w-full hover:bg-fuchsia-400 cursor-pointer"
-            type="submit"
-            value="Log in"
-          ></input>
+          <Link to="/home">
+            <input
+              className="mt-4 flex gap-5 text-2xl text-white bg-fuchsia-300 rounded-md px-6 py-3 w-full hover:bg-fuchsia-400 cursor-pointer"
+              type="submit"
+              value="Log in"
+            ></input>
+          </Link>
         </form>
       </div>
       <div className="w-1/2 bg-yellow-100 h-screen">
-        <img alt="Chat" src={chatImage} className="w-full h-full"/>
+        <img alt="Chat" src={chatImage} className="w-full h-full" />
       </div>
+      <Outlet/>
     </div>
   );
 }
