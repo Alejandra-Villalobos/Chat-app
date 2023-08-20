@@ -7,7 +7,7 @@ function Login() {
     <div className="flex font-patua">
       <div className="w-1/2 bg-emerald-200 h-screen flex flex-col justify-center items-center gap-4">
         <p className="text-6xl">ChatApp</p>
-        <button className="my-4 mx-2 flex gap-2 items-center text-2xl text-gray-600 bg-white rounded-md px-6 py-3 w-1/2 hover:bg-gray-100">
+        <button className="my-4 mx-2 flex gap-2 items-center text-xl text-gray-600 bg-white rounded-md px-6 py-3 w-1/2 hover:bg-gray-100 justify-evenly">
           <FcGoogle size={25} />
           Log in with Google Accounts
         </button>
