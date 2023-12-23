@@ -16,6 +16,7 @@ CREATE TABLE TOKEN (
 select * from token
 select * from users
 select * from chat
+select * from message 
 
 CREATE TABLE CHAT (
     chat_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,

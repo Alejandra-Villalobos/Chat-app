@@ -1,12 +1,29 @@
+import { useContext, useEffect, useState } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
 import ChatContainer from "../components/ChatContainer";
+import { getChats } from "../services/chat";
 
 function Home() {
+  var [chats, setChats] = useState([]);
+  const token = localStorage.getItem("token")
+  const email = localStorage.getItem("email")
+  const username = localStorage.getItem("username")
+
+  useEffect(() => {
+    getChats(token)
+      .then((data) => {
+        setChats(data);
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+      });
+  }, []);
+
   return (
     <div className="flex flex-col font-patua w-screen h-screen">
       <nav className="w-full bg-yellow-100 flex justify-between p-3">
         <p className="text-xl">ChatApp</p>
-        <p className="text-xl">Welcome, Username!</p>
+        <p className="text-xl">Welcome, {username}!</p>
       </nav>
       <div className="flex w-full justify-center pt-3 bg-emerald-200">
         <input className="w-11/12 rounded-s-md p-3" placeholder="Search user email"/>
@@ -15,17 +32,9 @@ function Home() {
         </button>
       </div>
       <section className="bg-emerald-200 w-full h-full p-6 flex gap-7 flex-wrap content-start">
-        <ChatContainer id="1" username="Chat1" />
-        <ChatContainer id="2" username="Chat2" />
-        <ChatContainer id="3" username="Chat3" />
-        <ChatContainer id="4" username="Chat4" />
-        <ChatContainer id="5" username="Chat5" />
-        <ChatContainer id="6" username="Chat6" />
-        <ChatContainer id="7" username="Chat7" />
-        <ChatContainer id="8" username="Chat8" />
-        <ChatContainer id="9" username="Chat9" />
-        <ChatContainer id="10" username="Chat10" />
-        <ChatContainer id="11" username="Chat11" />
+        {chats.map((chat) => (
+          <ChatContainer key={chat.chat_id} id={chat.chat_id} username={email === chat.first_user_email ? chat.second_user_email : chat.first_user_email} />
+        ))}
       </section>
     </div>
   );

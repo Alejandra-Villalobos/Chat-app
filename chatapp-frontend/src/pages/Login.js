@@ -1,8 +1,24 @@
+import { useState, useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import chatImage from "../assets/chat_image.png";
+import { loginService } from "../services/auth";
 
 function Login() {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const navigate = useNavigate();
+  const handleLogin = async (e) => {
+    try {
+      await loginService(email, password)
+      navigate("/home");
+    } catch (error) {
+      console.error("Error de inicio de sesión:", error);
+    }
+  };
+
+
   return (
     <div className="flex font-patua">
       <div className="w-1/2 bg-emerald-200 h-screen flex flex-col justify-center items-center gap-4">
@@ -19,25 +35,30 @@ function Login() {
         <form className="flex flex-col w-1/2">
           <input
             className="mt-4 flex gap-5 text-xl text-gray-700 bg-white rounded-md px-6 py-3 w-full"
-            placeholder="Username"
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+            required
           ></input>
           <input
             className="mt-4 flex gap-5 text-xl text-gray-700 bg-white rounded-md px-6 py-3 w-full"
             placeholder="Password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            required
           ></input>
-          <Link to="/home">
-            <input
+            <button
               className="mt-4 flex gap-5 text-2xl text-white bg-fuchsia-300 rounded-md px-6 py-3 w-full hover:bg-fuchsia-400 cursor-pointer"
-              type="submit"
-              value="Log in"
-            ></input>
-          </Link>
+              onClick={(e) => {
+                e.preventDefault();
+                handleLogin();
+              }}
+            >Log in</button>
         </form>
       </div>
       <div className="w-1/2 bg-yellow-100 h-screen">
         <img alt="Chat" src={chatImage} className="w-full h-full" />
       </div>
-      <Outlet/>
+      <Outlet />
     </div>
   );
 }
