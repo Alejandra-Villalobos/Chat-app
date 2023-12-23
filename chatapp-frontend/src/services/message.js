@@ -12,7 +12,6 @@ const getMessages = (token, chat_id, page, limit) => {
       axios
         .get(baseURL + `/chat/${chat_id}?page=${page}&limit=${limit}`, config)
         .then((response) => {
-            console.log(response.data)
           resolve(response.data.data);
         })
         .catch((error) => {
@@ -22,4 +21,26 @@ const getMessages = (token, chat_id, page, limit) => {
     });
   };
 
-  export { getMessages }
+  const postMessages = (token, chat_id, content) => {
+    return new Promise((resolve, reject) => {
+        const data = {
+            content: content,
+          };
+        const config = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+      axios
+        .post(baseURL + `/chat/${chat_id}`, data, config)
+        .then((response) => {
+          resolve();
+        })
+        .catch((error) => {
+          console.log("Error:", error.response.data);
+          reject(error);
+        });
+    });
+  };
+
+  export { getMessages, postMessages }

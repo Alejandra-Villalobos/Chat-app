@@ -5,7 +5,7 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { TfiMoreAlt } from "react-icons/tfi";
 import ChatContainer from "../components/ChatContainer";
 import MessageBox from "../components/MessageBox";
-import { getMessages } from "../services/message";
+import { getMessages, postMessages } from "../services/message";
 import { getChats } from "../services/chat";
 
 const { TextArea } = Input;
@@ -22,6 +22,19 @@ function Chat() {
   var [page, setPage] = useState(1);
   var [limit, setLimit] = useState(5);
 
+  var [content, setContent] = useState('');
+  
+  useEffect(() => {
+    getMessages(token, id, page, limit)
+      .then((data) => {
+        setMessages(data);
+        console.log(data)
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+      });
+  }, [page, limit, messages.length])
+
   useEffect(() => {
     getChats(token)
       .then((data) => {
@@ -31,15 +44,16 @@ function Chat() {
         console.log("Error:", error);
       });
 
-    getMessages(token, id, page, limit)
-      .then((data) => {
-        setMessages(data);
-        console.log(data)
-      })
-      .catch((error) => {
-        console.log("Error:", error);
-      });
-  }, [page, limit]);
+  }, []);
+
+  const handleMessage = async (e) => {
+    try {
+      await postMessages(token, id, content)
+      setContent("")
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col font-patua w-screen h-screen">
@@ -72,9 +86,13 @@ function Chat() {
                 resize: "none",
               }}
               placeholder="Enter your message"
+              onChange={(e) => setContent(e.target.value)}
             />
             <button className="bg-white w-1/12 mr-3 flex justify-center items-center rounded-lg shadow-md">
-              <RiSendPlaneFill size={45} color="Blue"/>
+              <RiSendPlaneFill size={45} color="Blue" onClick={(e) => {
+                handleMessage();
+                
+              }}/>
             </button>
           </div>
         </section>
