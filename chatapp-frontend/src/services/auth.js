@@ -15,6 +15,7 @@ const loginService = (email, password) => {
           localStorage.setItem("token", response.data.token)
           localStorage.setItem("email", response.data.data.email)
           localStorage.setItem("username", response.data.data.name)
+          localStorage.setItem("userId", response.data.data.user_id)
           resolve();
         })
         .catch((error) => {
