@@ -23,17 +23,12 @@ function Chat() {
   var [limit, setLimit] = useState(5);
 
   var [content, setContent] = useState('');
-  
+
   useEffect(() => {
-    getMessages(token, id, page, limit)
-      .then((data) => {
-        setMessages(data);
-        console.log(data)
-      })
-      .catch((error) => {
-        console.log("Error:", error);
-      });
-  }, [page, limit, messages.length])
+    setMessages([])
+    setLimit(5)
+    setPage(1)
+  }, [id])
 
   useEffect(() => {
     getChats(token)
@@ -44,16 +39,34 @@ function Chat() {
         console.log("Error:", error);
       });
 
-  }, []);
+      
+      handleGetMessages()
+  }, [page, limit, messages.length, id]);
 
   const handleMessage = async (e) => {
     try {
       await postMessages(token, id, content)
-      setContent("")
     } catch (error) {
       console.error("Error:", error);
     }
+    setContent("")
+    handleGetMessages()
   };
+
+  function handleGetMessages(){
+    getMessages(token, id, page, limit)
+      .then((data) => {
+        data.forEach((m) => {
+          var formatDate = new Date(m.timestamp)
+          m.timestamp = `${formatDate.getUTCDate()}/${formatDate.getUTCMonth()+1}/${formatDate.getUTCFullYear()} - ${formatDate.getUTCHours()}:${formatDate.getUTCMinutes()}`
+        })
+        setMessages(data);
+        console.log(data)
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+      });
+  }
 
   return (
     <div className="flex flex-col font-patua w-screen h-screen">
@@ -72,7 +85,7 @@ function Chat() {
           <button className="bg-sky-700 p-3 top-0 w-full"><TfiMoreAlt className="w-full" color="white" onClick={() => setLimit(limit+=5)}/></button>
           <div className="flex flex-col overflow-y-scroll h-3/4">
           {messages.map((message) => (
-          <MessageBox key={message.timestamp} message={message.content} timestamp={message.timestamp}
+          <MessageBox key={message.message_id} message={message.content} timestamp={message.timestamp}
             color={userId === message.sender_id ? "bg-cyan-700" : "bg-rose-400"} 
             position={userId === message.sender_id ? "self-end" : "self-start"} />
         ))}
@@ -87,6 +100,7 @@ function Chat() {
               }}
               placeholder="Enter your message"
               onChange={(e) => setContent(e.target.value)}
+              value={content}
             />
             <button className="bg-white w-1/12 mr-3 flex justify-center items-center rounded-lg shadow-md">
               <RiSendPlaneFill size={45} color="Blue" onClick={(e) => {

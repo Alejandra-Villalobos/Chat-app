@@ -9,7 +9,7 @@ module.exports.create = ({ sender_id, chat_id, content }) => {
 
 module.exports.getAll = ({ chat_id }) => {
   const bindings = [chat_id];
-  const SQL_GET_MESSAGE = `SELECT m.sender_id, u.name, m.chat_id, m.content, m.timestamp
+  const SQL_GET_MESSAGE = `SELECT m.message_id, m.sender_id, u.name, m.chat_id, m.content, m.timestamp
                               FROM MESSAGE m
                               JOIN USERS u ON u.user_id=m.sender_id
                               WHERE m.chat_id=$1`;
