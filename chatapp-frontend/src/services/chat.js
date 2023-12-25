@@ -21,4 +21,23 @@ const getChats = (token) => {
     });
   };
 
-  export { getChats }
+  const getOneChat = (token, chatId) => {
+    return new Promise((resolve, reject) => {
+        const config = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+      axios
+        .get(baseURL + `/oneChat/${chatId}`, config)
+        .then((response) => {
+          resolve(response.data.data);
+        })
+        .catch((error) => {
+          console.log("Error:", error.response.data);
+          reject(error);
+        });
+    });
+  };
+
+  export { getChats, getOneChat }

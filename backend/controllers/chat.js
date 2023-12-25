@@ -42,3 +42,14 @@ module.exports.getAllWithName = async (req, res, next) => {
     return res.status(400).json({ message: error.message });
   }
 };
+
+module.exports.getOneFromId = async (req, res, next) => {
+  try {
+    await Token.userAuth(req, res, next);
+    const { chatId } = req.params;
+    const { rows } = await Chat.existsWithId({ chat_id:chatId })
+    return res.status(200).json({ data:rows });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};

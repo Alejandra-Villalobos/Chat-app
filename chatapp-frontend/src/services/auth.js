@@ -25,4 +25,23 @@ const loginService = (email, password) => {
     });
   };
 
-  export { loginService }
+  const logout = (token) => {
+    return new Promise((resolve, reject) => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      axios
+        .post(baseURL + "/logout", '', config)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          console.log("Error:", error.response.data);
+          reject(error);
+        });
+    });
+  };
+
+  export { loginService, logout }

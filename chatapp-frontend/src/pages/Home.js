@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
 import ChatContainer from "../components/ChatContainer";
 import { getChats } from "../services/chat";
+import Menu from "../components/Menu";
 
 function Home() {
   var [chats, setChats] = useState([]);
@@ -21,10 +22,7 @@ function Home() {
 
   return (
     <div className="flex flex-col font-patua w-screen h-screen">
-      <nav className="w-full bg-yellow-100 flex justify-between p-3">
-        <p className="text-xl">ChatApp</p>
-        <p className="text-xl">Welcome, {username}!</p>
-      </nav>
+        <Menu username={username}/>
       <div className="flex w-full justify-center pt-3 bg-emerald-200">
         <input className="w-11/12 rounded-s-md p-3" placeholder="Search user email"/>
         <button className="bg-blue-500 rounded-e-md p-3">

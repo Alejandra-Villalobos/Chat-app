@@ -6,7 +6,8 @@ import { TfiMoreAlt } from "react-icons/tfi";
 import ChatContainer from "../components/ChatContainer";
 import MessageBox from "../components/MessageBox";
 import { getMessages, postMessages } from "../services/message";
-import { getChats } from "../services/chat";
+import { getChats, getOneChat } from "../services/chat";
+import Menu from "../components/Menu";
 
 const { TextArea } = Input;
 function Chat() {
@@ -19,6 +20,8 @@ function Chat() {
   const email = localStorage.getItem("email")
   const userId = localStorage.getItem("userId")
 
+  var [chatName, setChatName] = useState();
+
   var [page, setPage] = useState(1);
   var [limit, setLimit] = useState(5);
 
@@ -28,6 +31,16 @@ function Chat() {
     setMessages([])
     setLimit(5)
     setPage(1)
+
+    getOneChat(token, id)
+      .then((data) => {
+        setChatName(
+          username === data[0].first_user_name ? data[0].second_user_name : data[0].first_user_name
+        );
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+      });
   }, [id])
 
   useEffect(() => {
@@ -61,7 +74,6 @@ function Chat() {
           m.timestamp = `${formatDate.getUTCDate()}/${formatDate.getUTCMonth()+1}/${formatDate.getUTCFullYear()} - ${formatDate.getUTCHours()}:${formatDate.getUTCMinutes()}`
         })
         setMessages(data);
-        console.log(data)
       })
       .catch((error) => {
         console.log("Error:", error);
@@ -70,10 +82,7 @@ function Chat() {
 
   return (
     <div className="flex flex-col font-patua w-screen h-screen">
-      <nav className="w-full bg-yellow-100 flex justify-between p-3">
-        <p className="text-xl">ChatApp</p>
-        <p className="text-xl">Welcome, {username}!</p>
-      </nav>
+      <Menu username={username}/>
       <div className="flex h-full overflow-hidden">
         <section className="bg-pink-200 w-1/4 h-full p-3 flex gap-7 flex-wrap content-start justify-center overflow-y-scroll">
         {chats.map((chat) => (
@@ -81,7 +90,7 @@ function Chat() {
         ))}
         </section>
         <section className="bg-emerald-200 w-3/4 h-full">
-          <p className="text-xl bg-sky-300 p-3 text-center">ChatApp</p>
+          <p className="text-xl bg-sky-300 p-3 text-center">{chatName}</p>
           <button className="bg-sky-700 p-3 top-0 w-full"><TfiMoreAlt className="w-full" color="white" onClick={() => setLimit(limit+=5)}/></button>
           <div className="flex flex-col overflow-y-scroll h-3/4">
           {messages.map((message) => (
