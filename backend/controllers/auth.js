@@ -3,6 +3,7 @@ const Token = require("../models/token");
 const TokenController = require("../controllers/token");
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { sendEmail } = require("./email");
 
 const generateToken = async (user) => {
   const token = jwt.sign(user, 'afneinf');
@@ -52,6 +53,37 @@ module.exports.register = async (req, res, next) => {
         }
       }
       res.status(400).json({ message: 'Error: email or password not valid' });
+    } catch (error) {
+      res.status(400).json({ message: error });
+    }
+  };
+
+  function makeString(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter ++;
+    }
+    return result;
+}
+
+  module.exports.registerGoogle = async (req, res, next) => {
+    const { email } = req.body;
+    const code = makeString(6)
+    const text = `Hi ${email}!
+                  Thank you for registering in Chatapp, just a few more steps left.
+                  Here is your verification code: ${code}`
+    const html = `<h2>Hi ${email}!</h2>
+                  </br>
+                  <h3>Thank you for registering in Chatapp, just a few more steps left.</h3>
+                  </br>
+                  <h3>Here is your verification code: ${code}</h3>`
+    try {
+      await sendEmail(email, "Verify Chatapp Account", text, html)
+      res.status(200).json({ message: 'Email sent!', code: code });
     } catch (error) {
       res.status(400).json({ message: error });
     }
