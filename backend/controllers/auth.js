@@ -4,6 +4,7 @@ const TokenController = require("../controllers/token");
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { sendEmail } = require("./email");
+const { insertCode } = require("../models/verification");
 
 const generateToken = async (user) => {
   const token = jwt.sign(user, 'afneinf');
@@ -82,8 +83,15 @@ module.exports.register = async (req, res, next) => {
                   </br>
                   <h3>Here is your verification code: ${code}</h3>`
     try {
+      try {
+        const code_hash = await bcryptjs.hash(code, 6);
+        await insertCode({email, code: code_hash})
+      } catch (error) {
+        console.log(error)
+        return res.status(400).json({ message: error });
+      }
       await sendEmail(email, "Verify Chatapp Account", text, html)
-      res.status(200).json({ message: 'Email sent!', code: code });
+      res.status(200).json({ message: `Code sent to ${email}` });
     } catch (error) {
       res.status(400).json({ message: error });
     }
