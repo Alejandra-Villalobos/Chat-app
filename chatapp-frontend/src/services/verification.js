@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const baseURL = "http://localhost:8080";
 
@@ -12,10 +13,11 @@ const verifyCode = (email, code) => {
       axios
         .post(baseURL + "/verification", data)
         .then((response) => {
+          toast(response.data.message)
           resolve();
         })
         .catch((error) => {
-          console.log("Error:", error.response.data);
+          toast.error(error.response.data.message)
           reject(error);
         });
     });

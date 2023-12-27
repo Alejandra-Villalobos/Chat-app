@@ -27,6 +27,9 @@ module.exports.logout = async (req, res, next) => {
 
 module.exports.register = async (req, res, next) => {
     const { email, name, password } = req.body;
+    if(!email) return res.status(400).json({ message: "Email can't be empty" });
+    if(!name) return res.status(400).json({ message: "Name can't be empty" });
+    if(!password) return res.status(400).json({ message: "Password can't be empty" });
     try {
       const password_hash = await bcryptjs.hash(password, 12);
       const args = { email, name, password: password_hash };
@@ -39,6 +42,8 @@ module.exports.register = async (req, res, next) => {
   
   module.exports.login = async (req, res, next) => {
     const { email, password } = req.body;
+    if(!email) return res.status(400).json({ message: "Email can't be empty" });
+    if(!password) return res.status(400).json({ message: "Password can't be empty" });
     try {
       const args = { email };
       const { rows } = await User.login(args);

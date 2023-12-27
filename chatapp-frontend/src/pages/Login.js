@@ -1,6 +1,9 @@
 import { useState, useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import chatImage from "../assets/chat_image.png";
 import { loginService, loginGoogle, registerGoogle } from "../services/auth";
 import { findUserByEmail } from "../services/user";
@@ -31,8 +34,8 @@ function Login() {
       );
       const emailData = await userData.json();
       const { email: googleEmail, given_name } = emailData;
-      const data = await findUserByEmail(googleEmail)
-      if(data[0]){
+      const { data } = await findUserByEmail(googleEmail)
+      if(data){
         await loginGoogle(googleEmail)
         navigate("/home");
       } else{
@@ -50,6 +53,7 @@ function Login() {
 
   return (
     <div className="flex font-patua">
+      <ToastContainer />
       <div className="w-1/2 bg-emerald-200 h-screen flex flex-col justify-center items-center gap-4">
         <p className="text-6xl">ChatApp</p>
         <button

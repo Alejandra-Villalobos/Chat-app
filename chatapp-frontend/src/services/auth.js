@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const baseURL = "http://localhost:8080";
 
@@ -19,8 +20,29 @@ const loginService = (email, password) => {
           resolve();
         })
         .catch((error) => {
-          console.log("Error:", error.response.data);
-          reject(error);
+          toast.error(error.response.data.message)
+          reject(error.response.data.message);
+        });
+    });
+  };
+
+  const registerService = (email, name, password) => {
+    return new Promise((resolve, reject) => {
+      const data = {
+        email: email,
+        name: name,
+        password: password,
+      };
+  
+      axios
+        .post(baseURL + "/register", data)
+        .then((response) => {
+          toast(response.data.message)
+          resolve();
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message)
+          reject(error.response.data.message);
         });
     });
   };
@@ -84,4 +106,4 @@ const loginService = (email, password) => {
     });
   };
 
-  export { loginGoogle, registerGoogle, loginService, logout }
+  export { loginService, registerService, loginGoogle, registerGoogle, logout }
