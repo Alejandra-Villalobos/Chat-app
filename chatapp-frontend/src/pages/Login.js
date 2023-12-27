@@ -2,7 +2,9 @@ import { useState, useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import chatImage from "../assets/chat_image.png";
-import { loginService } from "../services/auth";
+import { loginService, loginGoogle } from "../services/auth";
+import { findUserByEmail } from "../services/user";
+import { useGoogleLogin } from "@react-oauth/google";
 
 function Login() {
   const [email, setEmail] = useState();
@@ -11,19 +13,45 @@ function Login() {
   const navigate = useNavigate();
   const handleLogin = async (e) => {
     try {
-      await loginService(email, password)
+      await loginService(email, password);
       navigate("/home");
     } catch (error) {
       console.error("Error de inicio de sesión:", error);
     }
   };
 
+  const handleGoogleSuccess = async (googleToken) => {
+      const userData = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me",
+        {
+          headers: {
+            Authorization: `Bearer ${googleToken}`,
+          },
+        }
+      );
+      const emailData = await userData.json();
+      const { email: googleEmail, given_name } = emailData;
+      const data = await findUserByEmail(googleEmail)
+      if(data){
+        await loginGoogle(googleEmail)
+        navigate("/home");
+      } else{
+        console.log("register needed")
+      }
+  }
+
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => handleGoogleSuccess(tokenResponse.access_token),
+  });
 
   return (
     <div className="flex font-patua">
       <div className="w-1/2 bg-emerald-200 h-screen flex flex-col justify-center items-center gap-4">
         <p className="text-6xl">ChatApp</p>
-        <button className="my-4 mx-2 flex gap-2 items-center text-xl text-gray-600 bg-white rounded-md px-6 py-3 w-1/2 hover:bg-gray-100 justify-evenly">
+        <button
+          className="my-4 mx-2 flex gap-2 items-center text-xl text-gray-600 bg-white rounded-md px-6 py-3 w-1/2 hover:bg-gray-100 justify-evenly"
+          onClick={() => login()}
+        >
           <FcGoogle size={25} />
           Log in with Google Accounts
         </button>
@@ -46,13 +74,15 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           ></input>
-            <button
-              className="mt-4 flex gap-5 text-2xl text-white bg-fuchsia-300 rounded-md px-6 py-3 w-full hover:bg-fuchsia-400 cursor-pointer"
-              onClick={(e) => {
-                e.preventDefault();
-                handleLogin();
-              }}
-            >Log in</button>
+          <button
+            className="mt-4 flex gap-5 text-2xl text-white bg-fuchsia-300 rounded-md px-6 py-3 w-full hover:bg-fuchsia-400 cursor-pointer"
+            onClick={(e) => {
+              e.preventDefault();
+              handleLogin();
+            }}
+          >
+            Log in
+          </button>
         </form>
       </div>
       <div className="w-1/2 bg-yellow-100 h-screen">

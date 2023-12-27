@@ -59,6 +59,25 @@ module.exports.register = async (req, res, next) => {
     }
   };
 
+  module.exports.loginGoogle = async (req, res, next) => {
+    const { email } = req.body;
+    try {
+      const args = { email };
+      const { rows } = await User.login(args);
+      if (rows.length) {
+          const { user_id, name } = rows[0];
+          const data_user = { user_id, email, name };
+          var token = await generateToken(data_user)
+          if(token == null) 
+            return res.status(400).json({ message: error });
+          return res.status(200).json({ data: data_user, token });
+      }
+      res.status(400).json({ message: 'Error: email not found' });
+    } catch (error) {
+      res.status(400).json({ message: error });
+    }
+  };
+
   function makeString(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

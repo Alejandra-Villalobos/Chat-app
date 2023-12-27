@@ -25,6 +25,50 @@ const loginService = (email, password) => {
     });
   };
 
+  const loginGoogle = (email) => {
+    return new Promise((resolve, reject) => {
+      const data = {
+        email: email,
+      };
+  
+      axios
+        .post(baseURL + "/loginGoogle", data)
+        .then((response) => {
+          localStorage.setItem("token", response.data.token)
+          localStorage.setItem("email", response.data.data.email)
+          localStorage.setItem("username", response.data.data.name)
+          localStorage.setItem("userId", response.data.data.user_id)
+          resolve();
+        })
+        .catch((error) => {
+          console.log("Error:", error.response.data);
+          reject(error);
+        });
+    });
+  };
+
+  const registerGoogle = (email) => {
+    return new Promise((resolve, reject) => {
+      const data = {
+        email: email,
+      };
+  
+      axios
+        .post(baseURL + "/loginGoogle", data)
+        .then((response) => {
+          localStorage.setItem("token", response.data.token)
+          localStorage.setItem("email", response.data.data.email)
+          localStorage.setItem("username", response.data.data.name)
+          localStorage.setItem("userId", response.data.data.user_id)
+          resolve();
+        })
+        .catch((error) => {
+          console.log("Error:", error.response.data);
+          reject(error);
+        });
+    });
+  };
+
   const logout = (token) => {
     return new Promise((resolve, reject) => {
       const config = {
@@ -44,4 +88,4 @@ const loginService = (email, password) => {
     });
   };
 
-  export { loginService, logout }
+  export { loginGoogle, loginService, logout }
