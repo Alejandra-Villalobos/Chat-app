@@ -4,7 +4,7 @@ const router = express.Router();
 
 const { verifyCode, deactivateCode } = require("../controllers/verification");
 
-router.get("/verification", verifyCode);
+router.post("/verification", verifyCode);
 router.put("/verification", deactivateCode);
 
 module.exports = router;

@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { verifyCode, deactivateCode } from "../services/verification";
 
-function Verify({ email }) {
+function Verify() {
+  const email = localStorage.getItem("email")
+
   const [code, setCode] = useState();
   var [submitCounter, setSubmitCounter] = useState(0);
 
@@ -10,7 +12,7 @@ function Verify({ email }) {
   const handleVerification = async (e) => {
     try {
       await verifyCode(email, code);
-      
+      console.log("Code accepted!")
     } catch (error) {
       console.error("Error de inicio de sesión:", error);
     }

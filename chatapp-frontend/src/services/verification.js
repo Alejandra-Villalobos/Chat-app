@@ -10,7 +10,7 @@ const verifyCode = (email, code) => {
       };
   
       axios
-        .get(baseURL + "/verification", data)
+        .post(baseURL + "/verification", data)
         .then((response) => {
           resolve();
         })

@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import chatImage from "../assets/chat_image.png";
-import { loginService, loginGoogle } from "../services/auth";
+import { loginService, loginGoogle, registerGoogle } from "../services/auth";
 import { findUserByEmail } from "../services/user";
 import { useGoogleLogin } from "@react-oauth/google";
 
@@ -32,10 +32,14 @@ function Login() {
       const emailData = await userData.json();
       const { email: googleEmail, given_name } = emailData;
       const data = await findUserByEmail(googleEmail)
-      if(data){
+      if(data[0]){
         await loginGoogle(googleEmail)
         navigate("/home");
       } else{
+        await registerGoogle(googleEmail)
+        localStorage.setItem("email", googleEmail)
+        localStorage.setItem("username", given_name)
+        navigate("/verify");
         console.log("register needed")
       }
   }

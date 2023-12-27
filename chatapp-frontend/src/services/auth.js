@@ -54,12 +54,8 @@ const loginService = (email, password) => {
       };
   
       axios
-        .post(baseURL + "/loginGoogle", data)
+        .post(baseURL + "/registerGoogle", data)
         .then((response) => {
-          localStorage.setItem("token", response.data.token)
-          localStorage.setItem("email", response.data.data.email)
-          localStorage.setItem("username", response.data.data.name)
-          localStorage.setItem("userId", response.data.data.user_id)
           resolve();
         })
         .catch((error) => {
@@ -88,4 +84,4 @@ const loginService = (email, password) => {
     });
   };
 
-  export { loginGoogle, loginService, logout }
+  export { loginGoogle, registerGoogle, loginService, logout }
