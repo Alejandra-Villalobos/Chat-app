@@ -43,7 +43,6 @@ function Login() {
         localStorage.setItem("email", googleEmail)
         localStorage.setItem("username", given_name)
         navigate("/verify");
-        console.log("register needed")
       }
   }
 
@@ -54,7 +53,7 @@ function Login() {
   return (
     <div className="flex font-patua">
       <ToastContainer />
-      <div className="w-1/2 bg-emerald-200 h-screen flex flex-col justify-center items-center gap-4">
+      <div className="w-1/2 bg-emerald-200 h-screen flex flex-col justify-center items-center gap-4 pattern-crosses-sky-800/25">
         <p className="text-6xl">ChatApp</p>
         <button
           className="my-4 mx-2 flex gap-2 items-center text-xl text-gray-600 bg-white rounded-md px-6 py-3 w-1/2 hover:bg-gray-100 justify-evenly"
@@ -83,7 +82,7 @@ function Login() {
             required
           ></input>
           <button
-            className="mt-4 flex gap-5 text-2xl text-white bg-fuchsia-300 rounded-md px-6 py-3 w-full hover:bg-fuchsia-400 cursor-pointer"
+            className="mt-4 gap-5 text-2xl text-center text-white bg-fuchsia-300 rounded-md px-6 py-3 w-full hover:bg-fuchsia-400 cursor-pointer"
             onClick={(e) => {
               e.preventDefault();
               handleLogin();
@@ -93,7 +92,7 @@ function Login() {
           </button>
         </form>
       </div>
-      <div className="w-1/2 bg-yellow-100 h-screen">
+      <div className="w-1/2 bg-yellow-100 h-screen pattern-crosses-orange-800/25">
         <img alt="Chat" src={chatImage} className="w-full h-full" />
       </div>
       <Outlet />
