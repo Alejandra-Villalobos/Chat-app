@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { Input } from "antd";
 import { verifyCode, deactivateCode } from "../services/verification";
 
 function Verify() {
@@ -35,11 +36,11 @@ function Verify() {
         <p className="text-6xl">ChatApp</p>
         <form className="m-8 p-8 flex flex-col gap-5 items-center h-maxl w-max bg-white rounded-md bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-60 border border-gray-100">
           <p className="text-3xl">Verification code</p>
-          <p className="text-md italic">
+          <p className="font-jost">
             Enter the verification code we sent to {email}
           </p>
-          <input
-            className="mt-4 flex gap-5 text-xl text-gray-700 bg-white rounded-md px-6 py-3 w-full"
+          <Input
+            className="mt-4 flex text-xl text-gray-700 bg-white rounded-md px-6 py-3 w-full"
             placeholder="Verification code"
             value={code}
             onChange={(e) => setCode(e.target.value)}

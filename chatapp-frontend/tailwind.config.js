@@ -6,6 +6,7 @@ module.exports = {
   theme: {
     fontFamily: {
       'patua': ['Patua One'], 
+      'jost': ['Jost'], 
     },
     extend: {},
   },

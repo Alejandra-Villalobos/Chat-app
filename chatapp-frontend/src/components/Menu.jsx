@@ -17,13 +17,13 @@ function Menu({ username }) {
       };
 
   return (
-    <nav className="w-full bg-yellow-100 flex justify-between p-3">
-        <p className="text-xl" onClick={() => navigate("/home")}>ChatApp</p>
+    <nav className="w-full bg-yellow-100 flex justify-between p-4">
+        <p className="text-xl cursor-pointer hover:scale-110" onClick={() => navigate("/home")}>ChatApp</p>
         <p className="text-xl">Welcome, {username}!</p>
         <button onClick={(e) => {
             e.preventDefault(); 
             handleLogout()
-        }}><MdOutlineLogout /></button>
+        }}><MdOutlineLogout size={25}/></button>
       </nav>
   )
 }

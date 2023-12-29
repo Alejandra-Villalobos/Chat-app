@@ -1,6 +1,7 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { Input } from "antd";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -68,19 +69,18 @@ function Login() {
           <hr className="border border-gray-500 mt-1 w-full rounded-lg" />
         </div>
         <form className="flex flex-col w-1/2">
-          <input
+          <Input
             className="mt-4 flex gap-5 text-xl text-gray-700 bg-white rounded-md px-6 py-3 w-full"
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
             required
-          ></input>
-          <input
-            className="mt-4 flex gap-5 text-xl text-gray-700 bg-white rounded-md px-6 py-3 w-full"
+          />
+          <Input.Password
+            className="mt-4 flex text-xl text-gray-700 bg-white rounded-md px-6 py-3 w-full"
             placeholder="Password"
-            type="password"
             onChange={(e) => setPassword(e.target.value)}
             required
-          ></input>
+          />
           <button
             className="mt-4 gap-5 text-2xl text-center text-white bg-fuchsia-300 rounded-md px-6 py-3 w-full hover:bg-fuchsia-400 cursor-pointer"
             onClick={(e) => {

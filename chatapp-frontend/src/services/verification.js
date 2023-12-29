@@ -32,7 +32,6 @@ const verifyAccountStatus = (email) => {
     axios
       .post(baseURL + "/accountStatus", data)
       .then((response) => {
-        toast(response.data.message);
         resolve();
       })
       .catch((error) => {

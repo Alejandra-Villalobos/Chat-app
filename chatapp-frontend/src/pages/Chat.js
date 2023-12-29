@@ -12,36 +12,38 @@ import Menu from "../components/Menu";
 const { TextArea } = Input;
 function Chat() {
   const { id } = useParams();
-  
+
   var [messages, setMessages] = useState([]);
   var [chats, setChats] = useState([]);
-  const token = localStorage.getItem("token")
-  const username = localStorage.getItem("username")
-  const email = localStorage.getItem("email")
-  const userId = localStorage.getItem("userId")
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+  const email = localStorage.getItem("email");
+  const userId = localStorage.getItem("userId");
 
   var [chatName, setChatName] = useState();
 
   var [page, setPage] = useState(1);
   var [limit, setLimit] = useState(5);
 
-  var [content, setContent] = useState('');
+  var [content, setContent] = useState("");
 
   useEffect(() => {
-    setMessages([])
-    setLimit(5)
-    setPage(1)
+    setMessages([]);
+    setLimit(5);
+    setPage(1);
 
     getOneChat(token, id)
       .then((data) => {
         setChatName(
-          username === data[0].first_user_name ? data[0].second_user_name : data[0].first_user_name
+          username === data[0].first_user_name
+            ? data[0].second_user_name
+            : data[0].first_user_name
         );
       })
       .catch((error) => {
         console.log("Error:", error);
       });
-  }, [id])
+  }, [id]);
 
   useEffect(() => {
     getChats(token)
@@ -52,27 +54,28 @@ function Chat() {
         console.log("Error:", error);
       });
 
-      
-      handleGetMessages()
+    handleGetMessages();
   }, [page, limit, messages.length, id]);
 
   const handleMessage = async (e) => {
     try {
-      await postMessages(token, id, content)
+      await postMessages(token, id, content);
     } catch (error) {
       console.error("Error:", error);
     }
-    setContent("")
-    handleGetMessages()
+    setContent("");
+    handleGetMessages();
   };
 
-  function handleGetMessages(){
+  function handleGetMessages() {
     getMessages(token, id, page, limit)
       .then((data) => {
         data.forEach((m) => {
-          var formatDate = new Date(m.timestamp)
-          m.timestamp = `${formatDate.getUTCDate()}/${formatDate.getUTCMonth()+1}/${formatDate.getUTCFullYear()} - ${formatDate.getUTCHours()}:${formatDate.getUTCMinutes()}`
-        })
+          var formatDate = new Date(m.timestamp);
+          m.timestamp = `${formatDate.getUTCDate()}/${
+            formatDate.getUTCMonth() + 1
+          }/${formatDate.getUTCFullYear()} - ${formatDate.getUTCHours()}:${formatDate.getUTCMinutes()}`;
+        });
         setMessages(data);
       })
       .catch((error) => {
@@ -82,22 +85,44 @@ function Chat() {
 
   return (
     <div className="flex flex-col font-patua w-screen h-screen">
-      <Menu username={username}/>
+      <Menu username={username} />
       <div className="flex h-full overflow-hidden">
-        <section className="bg-pink-200 w-1/4 h-full p-3 flex gap-7 flex-wrap content-start justify-center overflow-y-scroll">
-        {chats.map((chat) => (
-          <ChatContainer key={chat.chat_id} id={chat.chat_id} username={email === chat.first_user_email ? chat.second_user_email : chat.first_user_email} />
-        ))}
+        <section className="bg-pink-200 w-1/6 h-full p-3 flex gap-7 flex-wrap content-start justify-center overflow-y-scroll">
+          {chats.map((chat) => (
+            <ChatContainer
+              key={chat.chat_id}
+              id={chat.chat_id}
+              username={
+                email === chat.first_user_email
+                  ? chat.second_user_email
+                  : chat.first_user_email
+              }
+            />
+          ))}
         </section>
-        <section className="bg-emerald-200 w-3/4 h-full">
+        <section className="bg-emerald-200 w-5/6 h-full pattern-crosses-sky-800/25">
           <p className="text-xl bg-sky-300 p-3 text-center">{chatName}</p>
-          <button className="bg-sky-700 p-3 top-0 w-full"><TfiMoreAlt className="w-full" color="white" onClick={() => setLimit(limit+=5)}/></button>
+          <button className="bg-sky-700 p-3 top-0 w-full">
+            <TfiMoreAlt
+              className="w-full"
+              color="white"
+              onClick={() => setLimit((limit += 5))}
+            />
+          </button>
           <div className="flex flex-col overflow-y-scroll h-3/4">
-          {messages.map((message) => (
-          <MessageBox key={message.message_id} message={message.content} timestamp={message.timestamp}
-            color={userId === message.sender_id ? "bg-cyan-700" : "bg-rose-400"} 
-            position={userId === message.sender_id ? "self-end" : "self-start"} />
-        ))}
+            {messages.map((message) => (
+              <MessageBox
+                key={message.message_id}
+                message={message.content}
+                timestamp={message.timestamp}
+                color={
+                  userId === message.sender_id ? "bg-cyan-700" : "bg-rose-400"
+                }
+                position={
+                  userId === message.sender_id ? "self-end" : "self-start"
+                }
+              />
+            ))}
           </div>
           <div className="w-full flex">
             <TextArea
@@ -111,11 +136,14 @@ function Chat() {
               onChange={(e) => setContent(e.target.value)}
               value={content}
             />
-            <button className="bg-white w-1/12 mr-3 flex justify-center items-center rounded-lg shadow-md">
-              <RiSendPlaneFill size={45} color="Blue" onClick={(e) => {
-                handleMessage();
-                
-              }}/>
+            <button className="bg-white w-1/12 mr-3 flex justify-center items-center rounded-full shadow-md">
+              <RiSendPlaneFill
+                size={45}
+                color="Blue"
+                onClick={(e) => {
+                  handleMessage();
+                }}
+              />
             </button>
           </div>
         </section>

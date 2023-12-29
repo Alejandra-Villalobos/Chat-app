@@ -12,3 +12,17 @@ module.exports.findByEmail = async (req, res, next) => {
       res.status(400).json({ message: error });
     }
   };
+
+  module.exports.findAllUsersFilter = async (req, res, next) => {
+    try {
+      const { email } = req.query;
+      const { rows } = await User.findAll()
+      if(email){
+        const filteredUsers = rows.filter((user) => user.email.includes(email))
+        return res.status(200).json({ data: filteredUsers });
+      }
+      res.status(200).json({ data: rows });
+    } catch (error) {
+      res.status(400).json({ message: error });
+    }
+  };
