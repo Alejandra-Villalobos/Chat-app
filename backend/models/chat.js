@@ -11,7 +11,7 @@ module.exports.exists = ({ first_user_id, second_user_id }) => {
   const bindings = [first_user_id, second_user_id];
   const SQL_SELECT_CHAT = `SELECT first_user_id, second_user_id
                               FROM CHAT
-                              WHERE first_user_id=$1 AND second_user_id=$2`;
+                              WHERE (first_user_id=$1 AND second_user_id=$2) OR (first_user_id=$2 AND second_user_id=$1)`;
   return pool.query(SQL_SELECT_CHAT, bindings);
 };
 

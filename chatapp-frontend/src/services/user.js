@@ -17,10 +17,15 @@ const findUserByEmail = (email) => {
   });
 };
 
-const FilterUsersEmail = (email) => {
+const FilterUsersEmail = (token, email) => {
   return new Promise((resolve, reject) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     axios
-      .get(baseURL + `/emailFilter?email=${email}`)
+      .get(baseURL + `/emailFilter?email=${email}`, config)
       .then((response) => {
         resolve(response.data.data);
       })

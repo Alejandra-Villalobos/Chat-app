@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const baseURL = "http://localhost:8080";
 
@@ -40,4 +41,49 @@ const getChats = (token) => {
     });
   };
 
-  export { getChats, getOneChat }
+  const verifyChatExists = (token, email) => {
+    return new Promise((resolve, reject) => {
+      const data = {
+        email: email
+      };
+        const config = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+      axios
+        .post(baseURL + `/verifyChat`, data, config)
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          console.log("Error:", error.response);
+          reject(error);
+        });
+    });
+  };
+
+  const createChat = (token, email) => {
+    return new Promise((resolve, reject) => {
+      const data = {
+        email: email
+      };
+        const config = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+      axios
+        .post(baseURL + `/chat`, data, config)
+        .then((response) => {
+          toast(response.message)
+          resolve(response.message);
+        })
+        .catch((error) => {
+          console.log("Error:", error.response);
+          reject(error);
+        });
+    });
+  };
+
+  export { getChats, getOneChat, verifyChatExists, createChat }
