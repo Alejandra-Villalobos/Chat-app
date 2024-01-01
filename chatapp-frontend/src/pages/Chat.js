@@ -72,9 +72,9 @@ function Chat() {
       .then((data) => {
         data.forEach((m) => {
           var formatDate = new Date(m.timestamp);
-          m.timestamp = `${formatDate.getUTCDate()}/${
-            formatDate.getUTCMonth() + 1
-          }/${formatDate.getUTCFullYear()} - ${formatDate.getUTCHours()}:${formatDate.getUTCMinutes()}`;
+          m.timestamp = `${formatDate.getDate()}/${
+            formatDate.getMonth() + 1
+          }/${formatDate.getFullYear()} - ${formatDate.getHours()}:${formatDate.getMinutes()}`;
         });
         setMessages(data);
       })
