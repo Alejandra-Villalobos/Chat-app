@@ -2,9 +2,10 @@ const express = require("express");
 
 const router = express.Router();
 
-const { create, getAll } = require("../controllers/message");
+const { create, getAll, editVisibility } = require("../controllers/message");
 
-router.post("/chat/:chatId", create);
-router.get("/chat/:chatId", getAll);
+router.post("/message/:chatId", create);
+router.get("/message/:chatId", getAll);
+router.put("/message/:messageId", editVisibility);
 
 module.exports = router;

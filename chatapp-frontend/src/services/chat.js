@@ -30,7 +30,7 @@ const getChats = (token) => {
             },
           };
       axios
-        .get(baseURL + `/oneChat/${chatId}`, config)
+        .get(baseURL + `/chat/${chatId}`, config)
         .then((response) => {
           resolve(response.data.data);
         })
@@ -76,8 +76,8 @@ const getChats = (token) => {
       axios
         .post(baseURL + `/chat`, data, config)
         .then((response) => {
-          toast(response.message)
-          resolve(response.message);
+          toast(response.data.message)
+          resolve(response.data.message);
         })
         .catch((error) => {
           console.log("Error:", error.response);

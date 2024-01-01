@@ -6,7 +6,7 @@ const { create, getAllWithName, getOneFromId, verifyExists } = require("../contr
 
 router.post("/chat", create);
 router.get("/chat", getAllWithName);
-router.get("/oneChat/:chatId", getOneFromId);
+router.get("/chat/:chatId", getOneFromId);
 router.post("/verifyChat", verifyExists);
 
 module.exports = router;

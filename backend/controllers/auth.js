@@ -74,12 +74,12 @@ module.exports.register = async (req, res, next) => {
           const data_user = { user_id, email, name };
           var token = await generateToken(data_user)
           if(token == null) 
-            return res.status(400).json({ message: error });
+            return res.status(400).json({ message: error.message });
           return res.status(200).json({ data: data_user, token });
       }
       res.status(400).json({ message: 'Error: email not found' });
     } catch (error) {
-      res.status(400).json({ message: error });
+      res.status(400).json({ message: error.message });
     }
   };
 

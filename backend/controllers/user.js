@@ -11,7 +11,7 @@ module.exports.findByEmail = async (req, res, next) => {
     }
     res.status(200).json({ message: "User not found" });
   } catch (error) {
-    res.status(400).json({ message: error });
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -35,6 +35,6 @@ module.exports.findAllUsersFilter = async (req, res, next) => {
     }
     res.status(200).json({ data: rows });
   } catch (error) {
-    res.status(400).json({ message: error });
+    res.status(400).json({ message: error.message });
   }
 };

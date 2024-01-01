@@ -50,12 +50,38 @@ module.exports.getAll = async (req, res, next) => {
       try {
         const messages = await Message.getAll({ chat_id: chatId });
         //Mostrar los mensajes paginados en el orden correcto
-        return res.status(200).json({ data: messages.rows.reverse().slice(startIndex, endIndex).reverse()});
+        return res
+          .status(200)
+          .json({
+            data: messages.rows.reverse().slice(startIndex, endIndex).reverse(),
+          });
       } catch (error) {
         return res.status(400).json({ message: error });
       }
     }
     return res.status(400).json({ message: "Chat not found" });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
+module.exports.editVisibility = async (req, res, next) => {
+  try {
+    const authUser = await Token.userAuth(req, res, next);
+    const { messageId } = req.params;
+    const { visibility } = req.body;
+    const { rows } = await Message.getOneMessage({ message_id: messageId });
+    if (!rows[0]) return res.status(400).json({ message: "Message not found" });
+    if (rows[0].sender_id !== authUser.user_id && visibility === "none")
+      return res
+        .status(400)
+        .json({ message: "Can't delete other users' messages" });
+    await Message.editVisibility({
+      message_id: messageId,
+      sender_id: authUser.user_id,
+      visibility,
+    });
+    return res.status(200).json({ message: "Visibility changed" });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }

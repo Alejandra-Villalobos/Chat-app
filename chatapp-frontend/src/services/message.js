@@ -10,7 +10,7 @@ const getMessages = (token, chat_id, page, limit) => {
             },
           };
       axios
-        .get(baseURL + `/chat/${chat_id}?page=${page}&limit=${limit}`, config)
+        .get(baseURL + `/message/${chat_id}?page=${page}&limit=${limit}`, config)
         .then((response) => {
           resolve(response.data.data);
         })
@@ -32,7 +32,7 @@ const getMessages = (token, chat_id, page, limit) => {
             },
           };
       axios
-        .post(baseURL + `/chat/${chat_id}`, data, config)
+        .post(baseURL + `/message/${chat_id}`, data, config)
         .then((response) => {
           resolve();
         })
