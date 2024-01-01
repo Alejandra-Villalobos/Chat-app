@@ -1,6 +1,7 @@
 const Chat = require("../models/chat");
 const Message = require("../models/message");
 const Token = require("../controllers/token");
+const { actualDate } = require("../utils/date");
 
 module.exports.create = async (req, res, next) => {
   try {
@@ -20,6 +21,7 @@ module.exports.create = async (req, res, next) => {
           sender_id: authUser.user_id,
           chat_id: chatId,
           content: content,
+          timestamp: actualDate()
         });
         return res.status(200).json({ message: "Message sent" });
       } catch (error) {
@@ -50,11 +52,9 @@ module.exports.getAll = async (req, res, next) => {
       try {
         const messages = await Message.getAll({ chat_id: chatId });
         //Mostrar los mensajes paginados en el orden correcto
-        return res
-          .status(200)
-          .json({
-            data: messages.rows.reverse().slice(startIndex, endIndex).reverse(),
-          });
+        return res.status(200).json({
+          data: messages.rows.reverse().slice(startIndex, endIndex).reverse(),
+        });
       } catch (error) {
         return res.status(400).json({ message: error });
       }

@@ -115,6 +115,10 @@ function Chat() {
                 key={message.message_id}
                 message={message.content}
                 timestamp={message.timestamp}
+                visibility={message.visibility}
+                ownMessage={
+                  userId === message.sender_id ? true : false
+                }
                 color={
                   userId === message.sender_id ? "bg-cyan-700" : "bg-rose-400"
                 }

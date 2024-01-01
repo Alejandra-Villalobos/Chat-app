@@ -1,6 +1,6 @@
 import React from "react";
 
-function LeftMessage({ message, timestamp, color, position }) {
+function LeftMessage({ message, timestamp, visibility, ownMessage, color, position }) {
   return (
       <div className={`${color} p-3 rounded-md w-max h-max m-3 ${position}`}>
         <p className="text-xl text-white">{message}</p>
