@@ -25,7 +25,7 @@ function SetPass() {
       toast.error(error);
       setTimeout(() => {
         navigate("/");
-      }, 5000);
+      }, 3000);
     }
   };
 
@@ -39,7 +39,7 @@ function SetPass() {
       await registerService(email, username, pass);
       setTimeout(() => {
         navigate("/");
-      }, 5000);
+      }, 3000);
     } catch (error) {
       console.error("Error:", error);
     }

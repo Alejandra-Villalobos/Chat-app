@@ -13,7 +13,7 @@ const verifyCode = (email, code) => {
     axios
       .post(baseURL + "/verification", data)
       .then((response) => {
-        toast(response.data.message);
+        toast.loading(response.data.message);
         resolve();
       })
       .catch((error) => {

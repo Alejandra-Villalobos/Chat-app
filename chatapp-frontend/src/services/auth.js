@@ -37,7 +37,7 @@ const loginService = (email, password) => {
       axios
         .post(baseURL + "/register", data)
         .then((response) => {
-          toast(response.data.message)
+          toast.loading(response.data.message)
           resolve();
         })
         .catch((error) => {

@@ -22,7 +22,7 @@ function Verify() {
       await verifyCode(email, code);
       setTimeout(() => {
         navigate("/setPass");
-      }, 5000);
+      }, 3000);
     } catch (error) {
     }
       setCode('')
