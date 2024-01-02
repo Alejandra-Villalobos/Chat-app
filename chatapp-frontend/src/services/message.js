@@ -43,4 +43,26 @@ const getMessages = (token, chat_id, page, limit) => {
     });
   };
 
-  export { getMessages, postMessages }
+  const editvisibility = (token, message_id, visibility) => {
+    return new Promise((resolve, reject) => {
+        const data = {
+            visibility: visibility,
+          };
+        const config = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+      axios
+        .put(baseURL + `/message/${message_id}`, data, config)
+        .then((response) => {
+          resolve();
+        })
+        .catch((error) => {
+          console.log("Error:", error.response.data);
+          reject(error);
+        });
+    });
+  };
+
+  export { getMessages, postMessages, editvisibility }

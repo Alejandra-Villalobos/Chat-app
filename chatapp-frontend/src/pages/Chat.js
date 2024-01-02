@@ -113,6 +113,7 @@ function Chat() {
             {messages.map((message) => (
               <MessageBox
                 key={message.message_id}
+                id={message.message_id}
                 message={message.content}
                 timestamp={message.timestamp}
                 visibility={message.visibility}
@@ -125,6 +126,7 @@ function Chat() {
                 position={
                   userId === message.sender_id ? "self-end" : "self-start"
                 }
+                onVisibilityEdited={handleGetMessages}
               />
             ))}
           </div>
