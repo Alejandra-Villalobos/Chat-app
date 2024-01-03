@@ -1,6 +1,6 @@
 <h1 align="center">ChatApp</h1>
 
-![Version] [![Demo]](https://chatappwebsite.up.railway.app/)
+![Version] [![Demo]][Demo-url]
 
 <h2>About this project</h2>
 Chatapp is a web app for messaging with simple but essencial features like register your account via Google, create chats with other users, send and hide messages. This is mainly a practice project 
@@ -53,7 +53,8 @@ Password: 12345
 
 [Version]: https://img.shields.io/badge/version-1.0.0-green.svg
 
-[Demo]: https://img.shields.io/badge/demo-comming_soon!-blue.svg
+[Demo]: https://img.shields.io/badge/demo-click_here-blue.svg
+[Demo-url]: https://chatappwebsite.up.railway.app/
 
 [PostgreSQL]: https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white
 [PostgreSQL-url]: https://www.postgresql.org/
