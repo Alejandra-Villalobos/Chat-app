@@ -1,6 +1,6 @@
 <h1 align="center">ChatApp</h1>
 
-![Version] ![Demo]
+![Version] [![Demo]](https://chatappwebsite.up.railway.app/)
 
 <h2>About this project</h2>
 Chatapp is a web app for messaging with simple but essencial features like register your account via Google, create chats with other users, send and hide messages. This is mainly a practice project 
