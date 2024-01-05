@@ -22,7 +22,9 @@ function MessageBox({
     socket.emit("editMessage", "Message visibility updated");
   };
 
-
+  useEffect(() => {
+    socket.on("editMessageResponse", data => onVisibilityEdited());
+  }, [socket]);
 
   const [messageVisibility, setMessageVisibility] = useState(
     <p className="text-white">{message}</p>
