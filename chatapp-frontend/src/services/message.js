@@ -34,7 +34,7 @@ const getMessages = (token, chat_id, page, limit) => {
       axios
         .post(baseURL + `/message/${chat_id}`, data, config)
         .then((response) => {
-          resolve();
+          resolve(response.data);
         })
         .catch((error) => {
           console.log("Error:", error.response.data);

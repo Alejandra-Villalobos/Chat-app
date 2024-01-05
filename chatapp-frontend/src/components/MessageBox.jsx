@@ -4,7 +4,7 @@ import { RxCross2 } from "react-icons/rx";
 import { Popover } from "antd";
 import { editvisibility } from "../services/message";
 
-function LeftMessage({
+function MessageBox({
   id,
   message,
   timestamp,
@@ -12,14 +12,18 @@ function LeftMessage({
   ownMessage,
   color,
   position,
+  socket,
   onVisibilityEdited,
 }) {
   const token = localStorage.getItem("token");
 
-  const handleCreateChat = async (visibility) => {
+  const handleEditVisibility = async (visibility) => {
     await editvisibility(token, id, visibility);
-    onVisibilityEdited();
+    socket.emit("editMessage", "Message visibility updated");
   };
+
+
+
   const [messageVisibility, setMessageVisibility] = useState(
     <p className="text-white">{message}</p>
   );
@@ -35,13 +39,13 @@ function LeftMessage({
       <div className="flex flex-col mr-2">
         <button
           className="text-red-500 rounded-md p-1 hover:bg-red-600 hover:text-white transition"
-          onClick={() => handleCreateChat("not me")}
+          onClick={() => handleEditVisibility("not me")}
         >
           Delete for me
         </button>
         <button
           className="text-red-500 rounded-md p-1 hover:bg-red-600 hover:text-white transition"
-          onClick={() => handleCreateChat("none")}
+          onClick={() => handleEditVisibility("none")}
         >
           Delete for everyone
         </button>
@@ -63,6 +67,7 @@ function LeftMessage({
   return (
     <>
       <div
+        key={id}
         className={`${color} p-3 rounded-md w-max max-w-2xl h-max m-3 font-jost font-semibold ${position}`}
       >
         <div className="flex justify-between items-start">
@@ -89,4 +94,4 @@ function LeftMessage({
   );
 }
 
-export default LeftMessage;
+export default MessageBox;

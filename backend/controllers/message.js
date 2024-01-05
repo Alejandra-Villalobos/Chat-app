@@ -1,7 +1,7 @@
 const Chat = require("../models/chat");
 const Message = require("../models/message");
 const Token = require("../controllers/token");
-const { actualDate } = require("../utils/date");
+const { actualDate, formatDate } = require("../utils/date");
 
 module.exports.create = async (req, res, next) => {
   try {
@@ -17,13 +17,15 @@ module.exports.create = async (req, res, next) => {
       if (verifyUsers.rowCount === 0)
         return res.status(400).json({ message: "Can't access to chat" });
       try {
-        await Message.create({
+        const { rows: [message] } = await Message.create({
           sender_id: authUser.user_id,
           chat_id: chatId,
           content: content,
-          timestamp: actualDate()
+          timestamp: actualDate(),
         });
-        return res.status(200).json({ message: "Message sent" });
+        
+        message.timestamp = formatDate(message.timestamp);
+        return res.status(200).json(message);
       } catch (error) {
         return res.status(400).json({ message: error });
       }

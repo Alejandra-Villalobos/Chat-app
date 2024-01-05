@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Input } from "antd";
 import { RiSendPlaneFill } from "react-icons/ri";
@@ -10,8 +10,10 @@ import { getChats, getOneChat } from "../services/chat";
 import Menu from "../components/Menu";
 
 const { TextArea } = Input;
-function Chat() {
+function Chat({ socket }) {
   const { id } = useParams();
+
+  const messagesSectionRef = useRef(null);
 
   var [messages, setMessages] = useState([]);
   var [chats, setChats] = useState([]);
@@ -55,16 +57,25 @@ function Chat() {
       });
 
     handleGetMessages();
-  }, [page, limit, messages.length, id]);
+  }, [page, limit, id]);
+
+  useEffect(() => {
+    socket.on('messageResponse', (data) => setMessages([...messages, data]));
+
+    if (messagesSectionRef.current) {
+      messagesSectionRef.current.scrollTop = messagesSectionRef.current.scrollHeight;
+    }
+  }, [socket, messages]);
 
   const handleMessage = async (e) => {
     try {
-      await postMessages(token, id, content);
+      await postMessages(token, id, content).then((message) => {
+        socket.emit("message", message);
+      })
     } catch (error) {
       console.error("Error:", error);
     }
     setContent("");
-    handleGetMessages();
   };
 
   function handleGetMessages() {
@@ -109,7 +120,7 @@ function Chat() {
               onClick={() => setLimit((limit += 5))}
             />
           </button>
-          <div className="flex flex-col overflow-y-scroll h-3/4">
+          <section className="flex flex-col overflow-y-scroll h-3/4" ref={messagesSectionRef}>
             {messages.map((message) => (
               <MessageBox
                 key={message.message_id}
@@ -117,19 +128,18 @@ function Chat() {
                 message={message.content}
                 timestamp={message.timestamp}
                 visibility={message.visibility}
-                ownMessage={
-                  userId === message.sender_id ? true : false
-                }
+                ownMessage={userId === message.sender_id ? true : false}
                 color={
                   userId === message.sender_id ? "bg-cyan-700" : "bg-rose-400"
                 }
                 position={
                   userId === message.sender_id ? "self-end" : "self-start"
                 }
+                socket={socket}
                 onVisibilityEdited={handleGetMessages}
               />
             ))}
-          </div>
+          </section>
           <div className="w-full flex">
             <TextArea
               className="mx-3 h-18 w-11/12 shadow-md"

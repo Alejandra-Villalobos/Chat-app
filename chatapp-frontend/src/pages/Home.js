@@ -7,7 +7,7 @@ import { FilterUsersEmail } from "../services/user";
 import Menu from "../components/Menu";
 import SearchResult from "../components/SearchResult";
 
-function Home() {
+function Home({ socket }) {
   var [chats, setChats] = useState([]);
   const token = localStorage.getItem("token");
   const email = localStorage.getItem("email");

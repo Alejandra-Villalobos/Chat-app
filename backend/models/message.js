@@ -3,7 +3,8 @@ const { pool } = require("../utils/db");
 module.exports.create = ({ sender_id, chat_id, content, timestamp }) => {
   const bindings = [sender_id, chat_id, content, timestamp];
   const SQL_INSERT_MESSAGE = `INSERT INTO MESSAGE(sender_id, chat_id, content, timestamp)
-                              VALUES($1, $2, $3, $4)`;
+                              VALUES($1, $2, $3, $4)
+                              RETURNING *`;
   return pool.query(SQL_INSERT_MESSAGE, bindings);
 };
 
