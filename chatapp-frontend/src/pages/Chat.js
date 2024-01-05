@@ -8,6 +8,7 @@ import MessageBox from "../components/MessageBox";
 import { getMessages, postMessages } from "../services/message";
 import { getChats, getOneChat } from "../services/chat";
 import Menu from "../components/Menu";
+import TypingBubble from "../components/TypingBubble";
 
 const { TextArea } = Input;
 function Chat({ socket }) {
@@ -29,7 +30,7 @@ function Chat({ socket }) {
 
   var [content, setContent] = useState("");
 
-  var [typingState, setTypingState] = useState("");
+  var [typingState, setTypingState] = useState(false);
 
   useEffect(() => {
     setMessages([]);
@@ -86,9 +87,9 @@ function Chat({ socket }) {
   };
 
   const handleTyping = () => {
-    socket.emit("typing", "Typing...");
+    socket.emit("typing", true);
     setTimeout(() => {
-      socket.emit("typing", "");
+      socket.emit("typing", false);
     }, 3000);
   };
 
@@ -127,7 +128,6 @@ function Chat({ socket }) {
         </section>
         <section className="bg-emerald-200 w-5/6 h-full pattern-crosses-sky-800/25">
           <p className="text-xl bg-sky-300 p-3 text-center">{chatName}</p>
-          <p>{typingState}</p>
           <button className="bg-sky-700 p-3 top-0 w-full">
             <TfiMoreAlt
               className="w-full"
@@ -157,6 +157,7 @@ function Chat({ socket }) {
                 onVisibilityEdited={handleGetMessages}
               />
             ))}
+            {typingState && <TypingBubble />}
           </section>
           <div className="w-full flex">
             <TextArea
