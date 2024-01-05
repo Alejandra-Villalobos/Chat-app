@@ -7,7 +7,7 @@ import { FilterUsersEmail } from "../services/user";
 import Menu from "../components/Menu";
 import SearchResult from "../components/SearchResult";
 
-function Home({ socket }) {
+function Home() {
   var [chats, setChats] = useState([]);
   const token = localStorage.getItem("token");
   const email = localStorage.getItem("email");
@@ -60,10 +60,15 @@ function Home({ socket }) {
           <ChatContainer
             key={chat.chat_id}
             id={chat.chat_id}
-            username={
+            useremail={
               email === chat.first_user_email
                 ? chat.second_user_email
                 : chat.first_user_email
+            }
+            username={
+              username === chat.first_user_name
+                ? chat.second_user_name
+                : chat.first_user_name
             }
           />
         ))}

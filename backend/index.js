@@ -21,16 +21,19 @@ app.use(cors());
 const port = 8080;
 
 socketIO.on("connection", (socket) => {
+
+  socket.on("join chat", (chat_id) => socket.join(chat_id))
+
   socket.on("message", (data) => {
-    socketIO.emit("messageResponse", data);
+    socketIO.to(data.chat_id).emit("messageResponse", data);
   });
 
-  socket.on("editMessage", (data) => {
-    socketIO.emit("editMessageResponse", data);
+  socket.on("editMessage", (chat_id) => {
+    socketIO.to(chat_id).emit("editMessageResponse", chat_id);
   });
 
-  socket.on("typing", (data) => {
-    socket.broadcast.emit("typingResponse", data);
+  socket.on("typing", ({ chat_id, state }) => {
+    socket.broadcast.to(chat_id).emit("typingResponse", state);
   });
 
 });

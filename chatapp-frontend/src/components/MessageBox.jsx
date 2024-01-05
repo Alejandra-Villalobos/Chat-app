@@ -14,12 +14,13 @@ function MessageBox({
   position,
   socket,
   onVisibilityEdited,
+  chatId
 }) {
   const token = localStorage.getItem("token");
 
   const handleEditVisibility = async (visibility) => {
     await editvisibility(token, id, visibility);
-    socket.emit("editMessage", "Message visibility updated");
+    socket.emit("editMessage", chatId);
   };
 
   useEffect(() => {

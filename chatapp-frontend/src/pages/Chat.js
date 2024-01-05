@@ -10,8 +10,11 @@ import { getChats, getOneChat } from "../services/chat";
 import Menu from "../components/Menu";
 import TypingBubble from "../components/TypingBubble";
 
+import socketIO, { io } from "socket.io-client";
+var socket;
+
 const { TextArea } = Input;
-function Chat({ socket }) {
+function Chat() {
   const { id } = useParams();
 
   const messagesSectionRef = useRef(null);
@@ -48,6 +51,13 @@ function Chat({ socket }) {
       .catch((error) => {
         console.log("Error:", error);
       });
+
+    socket = socketIO.connect("http://localhost:8080");
+    socket.emit("join chat", id);
+
+    return () => {
+      if (socket) socket.disconnect();
+    };
   }, [id]);
 
   useEffect(() => {
@@ -71,10 +81,6 @@ function Chat({ socket }) {
     }
   }, [socket, messages]);
 
-  useEffect(() => {
-    socket.on("typingResponse", (data) => setTypingState(data));
-  }, [socket]);
-
   const handleMessage = async (e) => {
     try {
       await postMessages(token, id, content).then((message) => {
@@ -87,11 +93,15 @@ function Chat({ socket }) {
   };
 
   const handleTyping = () => {
-    socket.emit("typing", true);
+    socket.emit("typing", { chat_id: id, state: true });
     setTimeout(() => {
-      socket.emit("typing", false);
+      socket.emit("typing", { chat_id: id, state: false });
     }, 3000);
   };
+
+  useEffect(() => {
+    socket.on("typingResponse", (data) => setTypingState(data));
+  }, [socket]);
 
   function handleGetMessages() {
     getMessages(token, id, page, limit)
@@ -118,10 +128,15 @@ function Chat({ socket }) {
             <ChatContainer
               key={chat.chat_id}
               id={chat.chat_id}
-              username={
+              useremail={
                 email === chat.first_user_email
                   ? chat.second_user_email
                   : chat.first_user_email
+              }
+              username={
+                username === chat.first_user_name
+                  ? chat.second_user_name
+                  : chat.first_user_name
               }
             />
           ))}
@@ -155,6 +170,7 @@ function Chat({ socket }) {
                 }
                 socket={socket}
                 onVisibilityEdited={handleGetMessages}
+                chatId={id}
               />
             ))}
             {typingState && <TypingBubble />}
