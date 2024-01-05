@@ -29,6 +29,8 @@ function Chat({ socket }) {
 
   var [content, setContent] = useState("");
 
+  var [typingState, setTypingState] = useState("");
+
   useEffect(() => {
     setMessages([]);
     setLimit(5);
@@ -60,22 +62,34 @@ function Chat({ socket }) {
   }, [page, limit, id]);
 
   useEffect(() => {
-    socket.on('messageResponse', (data) => setMessages([...messages, data]));
+    socket.on("messageResponse", (data) => setMessages([...messages, data]));
 
     if (messagesSectionRef.current) {
-      messagesSectionRef.current.scrollTop = messagesSectionRef.current.scrollHeight;
+      messagesSectionRef.current.scrollTop =
+        messagesSectionRef.current.scrollHeight;
     }
   }, [socket, messages]);
+
+  useEffect(() => {
+    socket.on("typingResponse", (data) => setTypingState(data));
+  }, [socket]);
 
   const handleMessage = async (e) => {
     try {
       await postMessages(token, id, content).then((message) => {
         socket.emit("message", message);
-      })
+      });
     } catch (error) {
       console.error("Error:", error);
     }
     setContent("");
+  };
+
+  const handleTyping = () => {
+    socket.emit("typing", "Typing...");
+    setTimeout(() => {
+      socket.emit("typing", "");
+    }, 3000);
   };
 
   function handleGetMessages() {
@@ -113,6 +127,7 @@ function Chat({ socket }) {
         </section>
         <section className="bg-emerald-200 w-5/6 h-full pattern-crosses-sky-800/25">
           <p className="text-xl bg-sky-300 p-3 text-center">{chatName}</p>
+          <p>{typingState}</p>
           <button className="bg-sky-700 p-3 top-0 w-full">
             <TfiMoreAlt
               className="w-full"
@@ -120,7 +135,10 @@ function Chat({ socket }) {
               onClick={() => setLimit((limit += 5))}
             />
           </button>
-          <section className="flex flex-col overflow-y-scroll h-3/4" ref={messagesSectionRef}>
+          <section
+            className="flex flex-col overflow-y-scroll h-3/4"
+            ref={messagesSectionRef}
+          >
             {messages.map((message) => (
               <MessageBox
                 key={message.message_id}
@@ -151,6 +169,7 @@ function Chat({ socket }) {
               placeholder="Enter your message"
               onChange={(e) => setContent(e.target.value)}
               value={content}
+              onKeyDown={handleTyping}
             />
             <button className="bg-white w-1/12 mr-3 flex justify-center items-center rounded-full shadow-md">
               <RiSendPlaneFill

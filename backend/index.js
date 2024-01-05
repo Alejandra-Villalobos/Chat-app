@@ -29,6 +29,10 @@ socketIO.on("connection", (socket) => {
     socketIO.emit("editMessageResponse", data);
   });
 
+  socket.on("typing", (data) => {
+    socket.broadcast.emit("typingResponse", data);
+  });
+
 });
 
 app.use(authRouter);
