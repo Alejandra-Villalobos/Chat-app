@@ -127,7 +127,7 @@ function Chat() {
     <div className="flex flex-col font-patua w-screen h-screen">
       <Menu username={username} />
       <div className="flex h-full overflow-hidden">
-        <section className="bg-pink-200 w-1/6 h-full p-3 flex gap-7 flex-wrap content-start justify-center overflow-y-scroll">
+        <section className="bg-pink-200 w-2/6 md:w-3/12 xl:w-2/12 max-phone:hidden h-full p-2 flex gap-7 flex-wrap content-start justify-center overflow-y-scroll">
           {chats.map((chat) => (
             <ChatContainer
               key={chat.chat_id}
@@ -145,9 +145,9 @@ function Chat() {
             />
           ))}
         </section>
-        <section className="bg-emerald-200 w-5/6 h-full pattern-crosses-sky-800/25">
-          <p className="text-xl bg-sky-300 p-3 text-center">{chatName}</p>
-          <button className="bg-sky-700 p-3 top-0 w-full">
+        <section className="bg-emerald-200 w-4/6 md:w-9/12 xl:w-10/12 max-phone:w-full h-full pattern-crosses-sky-800/25">
+          <p className="text-xl bg-sky-300 p-2 text-center">{chatName}</p>
+          <button className="bg-sky-700 p-2 top-0 w-full">
             <TfiMoreAlt
               className="w-full"
               color="white"
@@ -181,12 +181,9 @@ function Chat() {
           </section>
           <div className="w-full flex">
             <TextArea
-              className="mx-3 h-18 w-11/12 shadow-md"
+              className="mx-3 h-1/3 w-11/12 shadow-md"
               showCount
               maxLength={1000}
-              style={{
-                resize: "none",
-              }}
               placeholder="Enter your message"
               onChange={(e) => setContent(e.target.value)}
               value={content}

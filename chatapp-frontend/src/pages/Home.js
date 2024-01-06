@@ -59,7 +59,7 @@ function Home() {
           onSearch={(text) => handleSearch(text)}
         />
       </div>
-      <section className="w-full h-full flex gap-7 flex-wrap content-start p-8">
+      <section className="w-full h-full flex gap-x-4 md:gap-x-7 gap-y-7 flex-wrap content-start justify-center sm:justify-normal p-8">
         {chats.map((chat) => (
           <ChatContainer
             key={chat.chat_id}

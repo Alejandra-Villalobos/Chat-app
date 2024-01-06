@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import socketIO, { io } from "socket.io-client";
 
 import Login from "./pages/Login";
 import Home from "./pages/Home";

@@ -17,7 +17,7 @@ const loginService = (email, password) => {
             token: response.data.token,
             email: response.data.data.email,
             username: response.data.data.name,
-            userid: response.data.data.user_id,
+            userId: response.data.data.user_id,
           });
         })
         .catch((error) => {
