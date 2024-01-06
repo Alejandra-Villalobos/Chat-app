@@ -4,6 +4,8 @@ import { RxCross2 } from "react-icons/rx";
 import { Popover } from "antd";
 import { editvisibility } from "../services/message";
 
+import { useAuth } from "../Context/AuthContext";
+
 function MessageBox({
   id,
   message,
@@ -16,7 +18,8 @@ function MessageBox({
   onVisibilityEdited,
   chatId
 }) {
-  const token = localStorage.getItem("token");
+  const { user } = useAuth();
+  const token = user.token;
 
   const handleEditVisibility = async (visibility) => {
     await editvisibility(token, id, visibility);

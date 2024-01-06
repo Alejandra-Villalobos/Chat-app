@@ -13,11 +13,12 @@ const loginService = (email, password) => {
       axios
         .post(baseURL + "/login", data)
         .then((response) => {
-          localStorage.setItem("token", response.data.token)
-          localStorage.setItem("email", response.data.data.email)
-          localStorage.setItem("username", response.data.data.name)
-          localStorage.setItem("userId", response.data.data.user_id)
-          resolve();
+          resolve({
+            token: response.data.token,
+            email: response.data.data.email,
+            username: response.data.data.name,
+            userid: response.data.data.user_id,
+          });
         })
         .catch((error) => {
           toast.error(error.response.data.message)
@@ -56,11 +57,12 @@ const loginService = (email, password) => {
       axios
         .post(baseURL + "/loginGoogle", data)
         .then((response) => {
-          localStorage.setItem("token", response.data.token)
-          localStorage.setItem("email", response.data.data.email)
-          localStorage.setItem("username", response.data.data.name)
-          localStorage.setItem("userId", response.data.data.user_id)
-          resolve();
+          resolve({
+            token: response.data.token,
+            email: response.data.data.email,
+            username: response.data.data.name,
+            userId: response.data.data.user_id,
+          });
         })
         .catch((error) => {
           console.log("Error:", error.response.data);

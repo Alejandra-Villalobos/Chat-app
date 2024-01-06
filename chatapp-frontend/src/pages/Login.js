@@ -2,22 +2,27 @@ import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Input } from "antd";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import chatImage from "../assets/chat_image.png";
 import { loginService, loginGoogle, registerGoogle } from "../services/auth";
 import { findUserByEmail } from "../services/user";
 import { useGoogleLogin } from "@react-oauth/google";
 
+import { useAuth } from "../Context/AuthContext";
+
 function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
+  const { setUser } = useAuth();
+
   const navigate = useNavigate();
   const handleLogin = async (e) => {
     try {
-      await loginService(email, password);
+      const userInfo = await loginService(email, password);
+      setUser(userInfo)
       navigate("/home");
     } catch (error) {
       console.error("Error de inicio de sesión:", error);
@@ -25,30 +30,29 @@ function Login() {
   };
 
   const handleGoogleSuccess = async (googleToken) => {
-      const userData = await fetch(
-        "https://www.googleapis.com/userinfo/v2/me",
-        {
-          headers: {
-            Authorization: `Bearer ${googleToken}`,
-          },
-        }
-      );
-      const emailData = await userData.json();
-      const { email: googleEmail, given_name } = emailData;
-      const { data } = await findUserByEmail(googleEmail)
-      if(data){
-        await loginGoogle(googleEmail)
-        navigate("/home");
-      } else{
-        await registerGoogle(googleEmail)
-        localStorage.setItem("email", googleEmail)
-        localStorage.setItem("username", given_name)
-        navigate("/verify");
-      }
-  }
+    const userData = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+      headers: {
+        Authorization: `Bearer ${googleToken}`,
+      },
+    });
+    const emailData = await userData.json();
+    const { email: googleEmail, given_name } = emailData;
+    const { data } = await findUserByEmail(googleEmail);
+    if (data) {
+      const userInfo = await loginGoogle(googleEmail);
+      setUser(userInfo)
+      navigate("/home");
+    } else {
+      await registerGoogle(googleEmail);
+      localStorage.setItem("email", googleEmail);
+      localStorage.setItem("username", given_name);
+      navigate("/verify");
+    }
+  };
 
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => handleGoogleSuccess(tokenResponse.access_token),
+    onSuccess: (tokenResponse) =>
+      handleGoogleSuccess(tokenResponse.access_token),
   });
 
   return (

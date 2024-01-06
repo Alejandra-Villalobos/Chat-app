@@ -3,8 +3,11 @@ import { FaUserFriends } from "react-icons/fa";
 import { IoPersonAddSharp } from "react-icons/io5";
 import { createChat } from "../services/chat";
 
+import { useAuth } from "../Context/AuthContext";
+
 function AddChatButton({ chatExists, email, onChatAdded }) {
-  const token = localStorage.getItem("token");
+  const { user } = useAuth();
+  const token = user.token;
 
   const handleCreateChat = async () => {
     await createChat(token, email);

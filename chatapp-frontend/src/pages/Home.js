@@ -7,11 +7,15 @@ import { FilterUsersEmail } from "../services/user";
 import Menu from "../components/Menu";
 import SearchResult from "../components/SearchResult";
 
+import { useAuth } from "../Context/AuthContext";
+
 function Home() {
+  const { user } = useAuth();
+
   var [chats, setChats] = useState([]);
-  const token = localStorage.getItem("token");
-  const email = localStorage.getItem("email");
-  const username = localStorage.getItem("username");
+  const token = user.token;
+  const email = user.email;
+  const username = user.username;
 
   const [userResults, setUserResults] = useState();
 

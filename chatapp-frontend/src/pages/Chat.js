@@ -10,21 +10,25 @@ import { getChats, getOneChat } from "../services/chat";
 import Menu from "../components/Menu";
 import TypingBubble from "../components/TypingBubble";
 
+import { useAuth } from "../Context/AuthContext";
+
 import socketIO, { io } from "socket.io-client";
 var socket;
 
 const { TextArea } = Input;
 function Chat() {
   const { id } = useParams();
+  const { user } = useAuth();
 
   const messagesSectionRef = useRef(null);
 
   var [messages, setMessages] = useState([]);
   var [chats, setChats] = useState([]);
-  const token = localStorage.getItem("token");
-  const username = localStorage.getItem("username");
-  const email = localStorage.getItem("email");
-  const userId = localStorage.getItem("userId");
+  
+  const token = user.token;
+  const username = user.username;
+  const email = user.email;
+  const userId = user.userId;
 
   var [chatName, setChatName] = useState();
 
