@@ -7,12 +7,13 @@ import { useAuth } from "../Context/AuthContext";
 
 function Menu({ username }) {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const token = user.token;
 
   const handleLogout = async (e) => {
     try {
       await logout(token);
+      setUser(null)
       navigate("/");
     } catch (error) {
       console.error("Error:", error);

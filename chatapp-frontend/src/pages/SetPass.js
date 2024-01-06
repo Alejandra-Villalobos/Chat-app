@@ -50,9 +50,9 @@ function SetPass() {
       <ToastContainer />
       <div className="w-full bg-emerald-200 h-screen flex flex-col justify-center items-center gap-4 pattern-crosses-sky-800/25">
         <p className="text-6xl">ChatApp</p>
-        <form className="m-8 p-8 flex flex-col gap-5 items-center h-maxl w-max bg-white rounded-md bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-60 border border-gray-100">
+        <form className="m-8 p-8 flex flex-col gap-5 items-center h-max w-4/5 md:w-max bg-white rounded-md bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-60 border border-gray-100">
           <p className="text-3xl">Set password</p>
-          <p className="font-jost">Set a password to activate your account</p>
+          <p className="font-jost text-center">Set a password to activate your account</p>
           <Input.Password
             className="mt-4 flex text-lg text-gray-700 bg-white rounded-md px-6 py-3 w-full"
             placeholder="Enter password"

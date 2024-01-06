@@ -34,9 +34,9 @@ function Verify() {
       <ToastContainer/>
       <div className="w-full bg-emerald-200 h-screen flex flex-col justify-center items-center gap-4 pattern-crosses-sky-800/25">
         <p className="text-6xl">ChatApp</p>
-        <form className="m-8 p-8 flex flex-col gap-5 items-center h-maxl w-max bg-white rounded-md bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-60 border border-gray-100">
+        <form className="m-8 p-8 flex flex-col gap-5 items-center h-max w-4/5 md:w-max bg-white rounded-md bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-60 border border-gray-100">
           <p className="text-3xl">Verification code</p>
-          <p className="font-jost">
+          <p className="font-jost text-center">
             Enter the verification code we sent to {email}
           </p>
           <Input
