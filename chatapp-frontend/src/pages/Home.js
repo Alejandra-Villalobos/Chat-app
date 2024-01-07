@@ -8,6 +8,7 @@ import Menu from "../components/Menu";
 import SearchResult from "../components/SearchResult";
 
 import { useAuth } from "../Context/AuthContext";
+import Footer from "../components/Footer";
 
 function Home() {
   const { user } = useAuth();
@@ -77,6 +78,7 @@ function Home() {
           />
         ))}
       </section>
+      <Footer/>
     </div>
   );
 }

@@ -16,7 +16,8 @@ module.exports = {
       '2xl': '1536px',
       'max-phone': {'max': '600px'},
     },
-    extend: {},
+    extend: {
+    },
   },
   plugins: [
     require('tailwindcss-patterns'),

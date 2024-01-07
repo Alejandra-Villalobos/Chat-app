@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { Input } from "antd";
 import { verifyCode, deactivateCode } from "../services/verification";
+import Footer from "../components/Footer";
 
 function Verify() {
   const email = localStorage.getItem("email")
@@ -53,6 +54,7 @@ function Verify() {
           >Submit</button>
         </form>
       </div>
+      <Footer/>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { Input } from "antd";
 import { verifyAccountStatus } from "../services/verification";
 import { registerService } from "../services/auth";
+import Footer from "../components/Footer";
 
 function SetPass() {
   const email = localStorage.getItem("email");
@@ -73,6 +74,7 @@ function SetPass() {
           </button>
         </form>
       </div>
+      <Footer/>
     </div>
   );
 }
