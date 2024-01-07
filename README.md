@@ -1,4 +1,4 @@
-<h1 align="center">ChatApp</h1>
+<h1 align="center"><a href="https://chatappwebsite.up.railway.app/" target="_blank" rel="noopener noreferrer">ChatApp</a></h1>
 
 ![Version] [![Demo]][Demo-url]
 
@@ -12,6 +12,7 @@ Chatapp is a web app for messaging with simple but essencial features like regis
 [![Axios][Axios]][Axios-url]
 [![Node][Node.js]][Node-url]
 [![Express][Express.js]][Express-url]
+[![Socket.io][Socket.io]][Socket.io-url]
 [![Tailwindcss][Tailwindcss]][Tailwind-url]
 [![Ant Design][Ant-Design]][Ant-url]
 [![ReactRouter][React-Router]][ReactRouter-url]
@@ -38,7 +39,7 @@ Step 3: Run the docker containers
    docker-compose up -d
    ```
 
-Step 4: Open your browser and navigate to localhost:80
+Step 4: Open your browser and navigate to localhost:3000
 
 <h2>Usage</h2>
 You can register using Google Accounts. Also here are some testing credentials you can use to log in and/or start a chat:
@@ -70,6 +71,9 @@ Password: 12345
 
 [Express.js]: https://img.shields.io/badge/Express.js-404D59?style=for-the-badge&logo=express&logoColor=white
 [Express-url]: https://expressjs.com/
+
+[Socket.io]: https://img.shields.io/badge/Socket.io-010101?&style=for-the-badge&logo=Socket.io&logoColor=white
+[Socket.io-url]: https://socket.io/
 
 [Tailwindcss]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
 [Tailwind-url]: https://tailwindcss.com/
