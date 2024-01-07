@@ -52,7 +52,7 @@ Password: 12345
 Email: test2@test.com </br>
 Password: 12345
 
-[Version]: https://img.shields.io/badge/version-1.0.0-green.svg
+[Version]: https://img.shields.io/badge/version-1.5.0-green.svg
 
 [Demo]: https://img.shields.io/badge/demo-click_here-blue.svg
 [Demo-url]: https://chatappwebsite.up.railway.app/
