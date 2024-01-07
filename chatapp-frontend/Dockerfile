@@ -13,6 +13,8 @@ RUN npm install
 # Copy other files to my current directory
 COPY . .
 
+RUN npm run build
+
 # Open the port to react
 EXPOSE 3000
 
